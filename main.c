@@ -15,7 +15,7 @@
 #define MAXOP   100    /* max size of operand/operator */
 #define NUMBER '0'     /* signal that a number was found */
 #define MAXVAL  100
-#define NAME 'n'
+#define MATH 'n'
 #define VARMAX 26
 
 size_t sp = 0;   // aka unsigned long -- printf using %zu
@@ -36,6 +36,12 @@ int getop(char* s) {
   while ((s[0] = c = getch_()) == ' ' || c == '\t') { }  // skip whitespace
   s[1] = '\0';
   
+  if (isalpha(c)){
+    i = 0;
+    while (isalpha(s[++i] = c = getch_())){}
+    s[i] = '\0';
+    return MATH; }
+
   if (!isdigit(c) && c != '.' && c!='-') { return c; }  // if not a digit, return
 
   i = 0;
@@ -74,6 +80,20 @@ void clear(void){
   sp = 0;
 }
 
+void math(char s[])//edit later
+{
+  double op2;
+    
+  if(strcmp(s,"sin")==0) push(sin(pop()));
+  else if(strcmp(s,"cos")==0) push(cos(pop()));
+  else if(strcmp(s,"exp")==0) push(exp(pop()));
+  else if(strcmp(s,"pow")==0){
+      op2 = pop();
+      push(pow(pop(),op2));}
+  else
+      printf("%s not valid math operator\n",s);
+}
+
 void rpn(void) {
   int type,v;
   double op1,op2,mr;//mr is the most recently printed value
@@ -87,6 +107,7 @@ void rpn(void) {
         printf("\t%.8g\n", mr);  
         break;
       case NUMBER:  push(atof(s));              break;
+      case MATH:    math(s);                    break;
       case '+':     push(pop() + pop());        break;
       case '*':     push(pop() * pop());        break;
       case '-':     push(-(pop() - pop()));     break;
