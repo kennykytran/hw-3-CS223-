@@ -124,7 +124,7 @@ void rpn(void) {
       case '=':
         pop();
         if(v>= 'A' && v <= 'Z') variable[v-'A'] = pop(); break;
-        printf("invalid variable name\n"); break;
+        fprintf(stderr, "invalid variable name\n"); break;
       default:      
         if(type>='A' && type<='Z') push(variable[type-'A']);
         else if(type == 'v') push(mr);
