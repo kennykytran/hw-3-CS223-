@@ -80,18 +80,16 @@ void clear(void){
   sp = 0;
 }
 
-void math(char s[])//edit later
-{
+void math(char s[]){
   double op2;
     
   if(strcmp(s,"sin")==0) push(sin(pop()));
   else if(strcmp(s,"cos")==0) push(cos(pop()));
   else if(strcmp(s,"exp")==0) push(exp(pop()));
   else if(strcmp(s,"pow")==0){
-      op2 = pop();
-      push(pow(pop(),op2));}
-  else
-      printf("%s not valid math operator\n",s);
+       op2 = pop();
+       push(pow(pop(),op2));}
+  else printf("%s not valid math operator\n",s);
 }
 
 void rpn(void) {
