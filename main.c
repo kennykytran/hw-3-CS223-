@@ -35,7 +35,7 @@ int getop(char* s) {
   int i, c;
   while ((s[0] = c = getch_()) == ' ' || c == '\t') { }  // skip whitespace
   s[1] = '\0';
-
+  
   if (isalpha(c)){
     i = 0;
     while (isalpha(s[++i] = c = getch_())){}
@@ -45,7 +45,7 @@ int getop(char* s) {
   if (!isdigit(c) && c != '.' && c!='-') { return c; }  // if not a digit, return
 
   i = 0;
-
+  
   if(c=='-'){
     if(isdigit(c=getch_()) || c == '.'){
       s[++i]=c;}
@@ -62,7 +62,7 @@ int getop(char* s) {
   }
   s[i] = '\0';
   if (c != EOF) { ungetch_(c); }
-
+  
   return NUMBER;      // return type is NUMBER, number stored in s
 }
 
@@ -80,16 +80,21 @@ void clear(void){
   sp = 0;
 }
 
-void math(char s[]){
-  double op2;
-
-  if(strcmp(s,"sin")==0) push(sin(pop()));
-  else if(strcmp(s,"cos")==0) push(cos(pop()));
-  else if(strcmp(s,"exp")==0) push(exp(pop()));
+void math(char s[])//edit later
+{
+  double op2, result;
+  if(strcmp(s,"sin")==0) result = sin(pop());
+  else if(strcmp(s,"cos")==0) result = cos(pop());
+  else if(strcmp(s,"exp")==0) result = exp(pop());
   else if(strcmp(s,"pow")==0){
-       op2 = pop();
-       push(pow(pop(),op2));}
-  else fprintf(stderr, "%s isn't a valid math operator\n",s);
+      op2 = pop();
+      result = pow(pop(),op2);
+      }
+  else{
+      printf("%s not valid math operator\n",s);
+  }
+    push(result);
+    printf("%.3f\n", result);
 }
 
 void rpn(void) {
@@ -100,9 +105,9 @@ void rpn(void) {
 
   while ((type = getop(s)) != EOF) {
     switch(type) {
-      case '\n':
+      case '\n':    
         mr = pop();
-        printf("\t%.8g\n", mr);
+        printf("\t%.8g\n", mr);  
         break;
       case NUMBER:  push(atof(s));              break;
       case MATH:    math(s);                    break;
@@ -134,7 +139,6 @@ void rpn(void) {
         push(op1);
         push(op2);
         break;
-      case '$': push(sin(pop()));               break;//sine function
       case '^': //power
         op2 = pop();
         push(pow(pop(), op2));
@@ -144,7 +148,7 @@ void rpn(void) {
         pop();
         if(v>= 'A' && v <= 'Z') variable[v-'A'] = pop(); break;
         fprintf(stderr, "invalid variable name\n"); break;
-      default:
+      default:      
         if(type>='A' && type<='Z') push(variable[type-'A']);
         else if(type == 'v') push(mr);
         else fprintf(stderr, "unknown command %s\n", s);  break;
