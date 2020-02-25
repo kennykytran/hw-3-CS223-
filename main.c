@@ -45,7 +45,7 @@ int getop(char* s) {
     return VARIABLE;
   }
 
-  if(c >= 'A' && c<= 'Z' && c!= 'v' && c!= 'd' && c != 'p'){
+  if(c >= 'a' && c<= 'z' && c!= 'v' && c!= 'd' && c != 'p'){
     i = 0;
     while (isalpha(s[++i] = c = getch_()));
     s[i] = '\0';
