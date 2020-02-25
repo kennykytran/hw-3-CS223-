@@ -45,7 +45,7 @@ int getop(char* s) {
     return VARIABLE;
   }
 
-  if(c >= 'a' && c<= 'z' && (c!= 'v' && c!= 'd' && c != 'p')){
+  if(c >= 'A' && c<= 'Z' && c!= 'v' && c!= 'd' && c != 'p'){
     i = 0;
     while (isalpha(s[++i] = c = getch_()));
     s[i] = '\0';
@@ -92,22 +92,21 @@ void clear(void){
   sp = 0;
 }
 
-void math(char s[])//edit later
+void math(char s[], double *v)//edit later
 {
-  double op2, result;
-  result = 0;
+  double op2, output;
+  output = 0;
 
-  if(strcmp(s, "sin") == 0){ result = sin(pop());}
-  else if(strcmp(s, "cos") == 0){ result = cos(pop());}
-  else if(strcmp(s, "exp") == 0){ result = exp(pop());}
+  if(strcmp(s, "sin") == 0){ output = sin(pop());}
+  else if(strcmp(s, "cos") == 0){ output = cos(pop());}
+  else if(strcmp(s, "exp") == 0){ output = exp(pop());}
   else if(strcmp(s, "pow") == 0){
       op2 = pop();
-      result = pow(pop(),op2);
-      push(result);}
+      output = pow(pop(),op2);}
   else{printf("%s is a invalid math operator\n",s);}
-  
-  push(result);
-  printf("\t%.8f\n", result);
+  *v = output;
+  push(output);
+  printf("\t%.8f\n", output);
 }
 
 void var(int vari, double var[]){
@@ -130,7 +129,7 @@ void rpn(void) {
       /*EXERCISE 4-6*/
       case VARIABLE: var(vari,variable);            break;
       /*EXERCISE 4-5*/
-      case MATH: math(s);                           break;
+      case MATH: math(s,&v);                        break;
       /*EXERCISE 4-4*/
       case 'p': printf("\t%.8g\n", (op2=pop())); push(op2);     break; //print
       case 'd': op2 = pop(); push(op2); push(op2);              break;//duplicate
