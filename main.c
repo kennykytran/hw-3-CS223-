@@ -45,7 +45,7 @@ int getop(char* s) {
     return VARIABLE;
   }
 
-  if(c >= 'a' && c <= 'z'){
+  if(c >= 'a' && c<= 'z' && (c!= 'v' && c!= 'd' && c != 'p')){
     i = 0;
     while (isalpha(s[++i] = c = getch_()));
     s[i] = '\0';
@@ -132,8 +132,8 @@ void rpn(void) {
       /*EXERCISE 4-5*/
       case MATH: math(s);                           break;
       /*EXERCISE 4-4*/
-      case '!': printf("\t%.8g\n", (op2=pop())); push(op2);     break; //print
-      case '#': op2 = pop(); push(op2); push(op2);              break;//duplicate
+      case 'p': printf("\t%.8g\n", (op2=pop())); push(op2);     break; //print
+      case 'd': op2 = pop(); push(op2); push(op2);              break;//duplicate
       case '$': op2 = pop(); op1 = pop(); push(op2); push(op1); break; //swap
       case '~': clear();                    break; //clear stack
       case '+': push(pop() + pop());        break;
@@ -150,7 +150,7 @@ void rpn(void) {
         break;
 
       /*EXERCISE 4-6*/
-      case '@': push(v); break; //output most recently printed value      
+      case 'v': push(v); break; //output most recently printed value      
       default:      
       if(type >= 'A' && type <= 'Z') {push(variable[type- 'A']); break;}
       fprintf(stderr, "unknown command %s\n", s);  break;
